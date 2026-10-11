@@ -2,7 +2,7 @@
 <div class="container-fluid">
     <div data-bind="template: {name: 'admin-mode-template'}, visible: allowAdmin" style="display: none;"></div>
 
-    <!--
+     <!--
         The markup code below is related to presentation. You don't have to change it, unless you
         intentionally want to change something in the Report Builder's behavior in your Application.
         It's Recommended you use it as is. You will be responsible for managing and maintaining any changes.
@@ -26,7 +26,7 @@
                             </li>
                             <li class="nav-item" data-bind="visible: CanManageFolders() || adminMode()">
                                 <a href="#" class="nav-link" data-bind="click: ManageFolder.newFolder">
-                                    <span class="fa fa-folder-open"></span> Add Folder
+                                    <span class="fa fa-folder-o"></span> Add Folder
                                 </a>
                             </li>
                             <li class="nav-item dropdown" data-bind="visible: (CanManageFolders() || adminMode()) && SelectedFolder()!=null && (SelectedFolder().canEdit || SelectedFolder().canDelete || adminMode())">
@@ -176,12 +176,12 @@
                                 <button type="button" class="btn btn-sm btn-link text-decoration-none px-0" data-bind="visible: !showClientScope(), click: function() { showClientScope(true); }">
                                     <i class="fa fa-user"></i> <span data-bind="text: headerClientId() ? 'Change client (' + headerClientId() + ')' : 'Restrict to a Client Id'"></span>
                                 </button>
-                                <div data-bind="visible: showClientScope" class="input-group input-group-sm" style="max-width: 400px;">
+                                <!-- ko if: showClientScope --><div class="input-group input-group-sm" style="max-width: 400px;">
                                     <span class="input-group-text">Client Id</span>
                                     <input class="form-control" type="text" placeholder="Blank = Global" data-bind="value: headerClientId, event: { change: function () { applyHeaderScope(); } }">
                                     <button class="btn btn-outline-secondary" type="button" data-bind="click: cancelHeaderScope" title="Cancel"><i class="fa fa-times"></i></button>
                                     <span class="input-group-text bg-white" data-bs-toggle="tooltip" data-placement="top" title="Leave blank for a Global header. Changing this switches to that client's headers."><i class="fa fa-question-circle helptip"></i></span>
-                                </div>
+                                </div><!-- /ko -->
                                 <button class="btn btn-primary btn-sm ms-auto" data-bind="click: saveHtmlHeader">
                                     <i class="fa fa-save"></i> Save Header
                                 </button>
@@ -214,7 +214,7 @@
                         <!-- Designer (hidden when report footers are turned off) -->
                         <div data-bind="visible: UseReportFooter">
                         <!-- Selection toolbar (footer has one per scope, so just the client scope) -->
-                        <div data-bind="visible: clientListIds().length > 0" class="d-flex flex-wrap align-items-end gap-2 mb-3">
+                        <!-- ko if: clientListIds().length > 0 --><div class="d-flex flex-wrap align-items-end gap-2 mb-3">
                             <div>
                                 <label class="form-label small text-muted mb-1">Client scope</label>
                                 <select class="form-select form-select-sm" style="min-width: 200px;"
@@ -224,7 +224,7 @@
                                             event: { change: function () { loadHtmlFooter(false); } }">
                                 </select>
                             </div>
-                        </div>
+                        </div><!-- /ko -->
 
                         <!-- Editor card -->
                         <div class="card shadow-sm">
@@ -254,12 +254,12 @@
                                 <button type="button" class="btn btn-sm btn-link text-decoration-none px-0" data-bind="visible: !showClientScope(), click: function() { showClientScope(true); }">
                                     <i class="fa fa-user"></i> <span data-bind="text: footerClientId() ? 'Change client (' + footerClientId() + ')' : 'Restrict to a Client Id'"></span>
                                 </button>
-                                <div data-bind="visible: showClientScope" class="input-group input-group-sm" style="max-width: 400px;">
+                                <!-- ko if: showClientScope --><div class="input-group input-group-sm" style="max-width: 400px;">
                                     <span class="input-group-text">Client Id</span>
                                     <input class="form-control" type="text" placeholder="Blank = Global" data-bind="value: footerClientId, event: { change: function () { applyFooterScope(); } }">
                                     <button class="btn btn-outline-secondary" type="button" data-bind="click: cancelFooterScope" title="Cancel"><i class="fa fa-times"></i></button>
                                     <span class="input-group-text bg-white" data-bs-toggle="tooltip" data-placement="top" title="Leave blank for a Global footer. Changing this switches to that client's footer."><i class="fa fa-question-circle helptip"></i></span>
-                                </div>
+                                </div><!-- /ko -->
                                 <button class="btn btn-primary btn-sm ms-auto" data-bind="click: saveHtmlFooter">
                                     <i class="fa fa-save"></i> Save Footer
                                 </button>
@@ -355,9 +355,9 @@
                                     <div class="list-group-item">
                                         <div class="row">
                                             <div class="col-sm-7">
-                                                <input type="checkbox" data-bind="visible: $root.selectMode, checked: isSelected" class="float-start me-2" />
-                                                <div class="fa fa-2x float-start" data-bind="css: {'fa-file': reportType=='List', 'fa-th-list': reportType=='Summary', 'fa-bar-chart': reportType=='Bar', 'fa-pie-chart': reportType=='Pie',  'fa-line-chart': reportType=='Line', 'fa-globe': reportType.indexOf('Map')==0, 'fa-window-maximize': reportType=='Single', 'fa-random': reportType=='Pivot', 'fa-window-restore': reportType=='Treemap', 'fa-signal': reportType == 'Combo', 'fa-code': reportType == 'Html', 'fa-map': reportType == 'HeatMap'}"></div>
-                                                <div class="float-start">
+                                                <input type="checkbox" data-bind="visible: $root.selectMode, checked: isSelected" class="pull-left me-2" />
+                                                <div class="fa fa-2x pull-left" data-bind="css: {'fa-file': reportType=='List', 'fa-th-list': reportType=='Summary', 'fa-bar-chart': reportType=='Bar', 'fa-pie-chart': reportType=='Pie',  'fa-line-chart': reportType=='Line', 'fa-globe': reportType.indexOf('Map')==0, 'fa-window-maximize': reportType=='Single', 'fa-random': reportType=='Pivot', 'fa-window-restore': reportType=='Treemap', 'fa-signal': reportType == 'Combo', 'fa-code': reportType == 'Html', 'fa-map': reportType == 'HeatMap'}"></div>
+                                                <div class="pull-left">
                                                     <h4>
                                                         <a data-bind="click: runReport" style="cursor: pointer">
                                                             <span data-bind="highlightedText: { text: reportName, highlight: $parent.searchReports, css: 'highlight' }"></span>
@@ -411,13 +411,13 @@
                                                             </a>
                                                             <div class="dropdown-divider" data-bind="visible: !$root.selectMode()"></div>
                                                             <a class="dropdown-item" href="#" data-bind="click: function() { exportReport(ko.unwrap($root.appSettings.useAltPdf) ? 'pdfalt' : 'pdf');}">
-                                                                <span class="fas fa-file-pdf"></span> Download PDF
+                                                                <span class="fa fa-file-pdf-o"></span> Download PDF
                                                             </a>
                                                             <a class="dropdown-item" href="#" data-bind="click: function() {exportReport('excel');}">
-                                                                <span class="fas fa-file-excel"></span> Download Excel
+                                                                <span class="fa fa-file-excel-o"></span> Download Excel
                                                             </a>
                                                             <a class="dropdown-item" href="#" data-bind="visible: hasDrilldown, click: function() {exportReport('excel-sub');}">
-                                                                <span class="fas fa-file-excel"></span> Download Excel (Expanded)
+                                                                <span class="fa fa-file-excel-o"></span> Download Excel (Expanded)
                                                             </a>
                                                             <div class="dropdown-divider" data-bind="visible: !isSubReportOnly()"></div>
                                                             <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-schedule-report" data-bind="visible: !isSubReportOnly(), click: function() { $parent.openScheduleModal($data); }">
@@ -453,10 +453,10 @@
                                                             </a>
                                                             <div class="dropdown-divider" data-bind="visible: !$root.selectMode()"></div>
                                                             <a class="dropdown-item" href="#" data-bind="click: function() {exportReport('excel');}">
-                                                                <span class="fas fa-file-excel"></span> Download Excel
+                                                                <span class="fa fa-file-excel-o"></span> Download Excel
                                                             </a>
                                                             <a class="dropdown-item" href="#" data-bind="visible: hasDrilldown, click: function() {exportReport('excel-sub');}">
-                                                                <span class="fas fa-file-excel"></span> Download Excel with inner rows
+                                                                <span class="fa fa-file-excel-o"></span> Download Excel with inner rows
                                                             </a>
                                                             <div class="dropdown-divider" data-bind="visible: !isSubReportOnly()"></div>
                                                             <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-schedule-report" data-bind="visible: !isSubReportOnly(), click: function() { $parent.openScheduleModal($data); }">
@@ -853,14 +853,14 @@
                                         <a href="#" class="dropdown-item" data-bind="click: appSettings.showPageSize
                                               ? function() { PdfPage.isDebug = false; $('#pdfOptionsModal').modal('show'); }
                                               : function() { downloadPdf(false); }">
-                                            <i class="fa fa-file-pdf"></i> Pdf
+                                            <i class="fa fa-file-pdf-o"></i> Pdf
                                         </a>
                                     </li>
                                     <li data-bind="visible: adminMode() && !appSettings.useAltPdf()">
                                         <a href="#" class="dropdown-item" data-bind="click: appSettings.showPageSize
                                               ? function() { PdfPage.isDebug = true; $('#pdfOptionsModal').modal('show'); }
                                               : function() { downloadPdf(true); }">
-                                            <i class="fa fa-file-pdf"></i> Pdf (Debug)
+                                            <i class="fa fa-file-pdf-o"></i> Pdf (Debug)
                                         </a>
                                     </li>
                                     <!-- Alt PDF, drilldown available (non-pivot, non-kpi) -> submenu -->
@@ -884,7 +884,7 @@
                                         <a href="#" class="dropdown-item" data-bind="click: appSettings.showPageSize
                                               ? function() { PdfPage.isExpanded = false; $('#pdfOptionsModal').modal('show'); }
                                               : function() { downloadPdfAlt(); }">
-                                            <i class="fa fa-file-pdf"></i> Pdf
+                                            <i class="fa fa-file-pdf-o"></i> Pdf
                                         </a>
                                     </li>
                                     <!-- Excel, drilldown available -> submenu -->
@@ -899,34 +899,34 @@
                                     <!-- Excel, no drilldown -> flat -->
                                     <li data-bind="visible: !canDrilldown()">
                                         <a href="#" class="dropdown-item" data-bind="click: downloadExcel">
-                                            <i class="fas fa-file-excel"></i> Excel
+                                            <i class="fa fa-file-excel-o"></i> Excel
                                         </a>
                                     </li>
                                     <li data-bind="visible:!canDrilldown() && hasSubReports()">
                                         <a href="#" class="dropdown-item" data-bind="click: downloadExcelWithSubreport">
-                                            <i class="fas fa-file-excel"></i> Excel with Subreport
+                                            <i class="fa fa-file-excel-o"></i> Excel with Subreport
                                         </a>
                                     </li>
                                     <li data-bind="hidden: appSettings.dontWordExport">
                                         <a class="dropdown-item" data-bind="click: appSettings.showPageSize
                                             ? function() { $('#wordOptionsModal').modal('show'); }
                                             : function() { downloadWord(); }">
-                                            <span class="fas fa-file-word"></span> Word
+                                            <span class="fa fa-file-word-o"></span> Word
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" class="dropdown-item" data-bind="click: downloadCsv">
-                                            <i class="fas fa-file-excel"></i> Csv
+                                            <i class="fa fa-file-excel-o"></i> Csv
                                         </a>
                                     </li>
                                     <li data-bind="hidden: appSettings.dontXmlExport">
                                         <a href="#" class="dropdown-item" data-bind="click: downloadXml">
-                                            <i class="fa fa-file-code"></i> Xml
+                                            <i class="fa fa-file-code-o"></i> Xml
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" class="dropdown-item" data-bind="click: printReportPage">
-                                            <i class="fas fa-print"></i> Print
+                                            <i class="fa fa-print"></i> Print
                                         </a>
                                     </li>
                                 </ul>
@@ -976,9 +976,9 @@
                                             <div class="form-group pull-left total-records">
                                                 <span data-bind="text: ' Total Records: ' + totalRecords()"></span><br />
                                             </div>
-                                            <div class="float-start">
+                                            <div class="pull-left">
                                                 <button class="btn btn-secondary btn-sm" data-bind="visible: !$root.isChart() || $root.ShowDataWithGraph(), click: $root.downloadExcel" title="Export to Excel">
-                                                    <span class="fas fa-file-excel"></span>
+                                                    <span class="fa fa-file-excel-o"></span>
                                                 </button>
                                                 <button class="btn btn-secondary btn-sm" data-bind="click: $parent.toggleExpand">
                                                     <span class="fa" data-bind="css: {'fa-expand': !$parent.isExpanded(), 'fa-compress': $parent.isExpanded() }"></span>
@@ -992,7 +992,7 @@
                                                 <button class="btn btn-secondary btn-sm" title="Re-run Report" data-bind="click: function() { $root.RunReport(false, true);}">
                                                     <i class="fa fa-play"></i> 
                                                 </button>
-                                                <div data-bind="with: $parent" class="float-start">
+                                                <div data-bind="with: $parent" class="pull-left">
                                                     <div class="dropdown-selected" data-bind="click: toggleDropdown">
                                                         <div data-bind="with: selectedTableStyle" class="btn btn-sm btn-secondary" title="Format Table">
                                                             <span class="fa fa- fa-paint-brush"></span>
@@ -1036,7 +1036,7 @@
                                 </div>
                                 <div class="report-canvas" data-bind="hidden: DontExecuteOnRun() && !reportRan()">
                                     <div class="report-container bg-light">
-                                           <div class="report-inner" data-bind="style: { backgroundColor: tableSettings().backColor || (ReportResult() && ReportResult().ReportData() && ReportResult().ReportData().BackColor ? ReportResult().ReportData().BackColor() : '#fff') }">
+                                           <div class="report-inner" data-bind="style: { backgroundColor: (ReportResult() && ReportResult().ReportData() && ReportResult().ReportData().BackColor ? ReportResult().ReportData().BackColor() : '') || pageBackColor() || '#fff' }">
                                             <div data-bind="if: $root.CanEdit() && ReportType()!='Html' && ReportType()!='Single'">
                                                 <div data-bind="template: 'chart-settings', data: $data"></div>
                                             </div>
@@ -1046,7 +1046,7 @@
                                             <div data-bind="visible: headerDesigner.UseReportHeader">
                                                 <div id="report-header" width="900" height="120" data-bind="html: $root.substituteReportPlaceholders($root.headerDesigner.headerHtml())"></div>
                                             </div>
-                                            <h2 data-bind="text: ReportName"></h2>
+                                            <div class="dr-report-title" data-bind="visible: !HideReportName()"><h2 data-bind="text: ReportName"></h2><!-- ko if: CanEdit() --><a href="#" class="dr-title-hide" title="Hide report name" data-bind="click: function () { HideReportName(true); }"><i class="fa fa-times"></i></a><!-- /ko --></div>
                                             <p data-bind="html: ReportDescription">
                                             </p>
                                             <div data-bind="template: 'filter-details-summary'"></div>
@@ -1111,7 +1111,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="fa fa-key"></i> Manage Access <span class="text-muted ms-1" data-bind="text: accessModalReport() ? accessModalReport().reportName : ''"></span></h5>
+                <h5 class="modal-title"><i class="fa fa-key"></i> Manage Access <span class="text-muted ms-1" data-bind="text: accessModalTitle"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -1311,78 +1311,5 @@
         </div>
     </div>
 </div>
-<!-- Templates -->
 <!--COMMON_TEMPLATES-->
-<!-- Configure Joins Modal -->
-<div class="modal" id="weightedmodal-configure-joins" tabindex="-1" role="dialog" aria-hidden="true" data-bind="with: selectedReport">
-    <div class="modal-dialog modal-lg ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="configureJoinsLabel"><i class="fa fa-link"></i> Configure Joins for Report</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p class="text-muted small">Override join types and drag to reorder for this report only.</p>
-
-                <!-- ko if: detectedJoins().length === 0 -->
-                <div class="alert alert-info">
-                    <i class="fa fa-info-circle"></i> No joins detected. Make sure you have selected fields from multiple tables.
-                </div>
-                <!-- /ko -->
-
-                <!-- ko if: detectedJoins().length > 0 -->
-                <div class="mb-3 p-2 bg-light rounded d-flex align-items-center">
-                    <label class="fw-bold small me-2 text-nowrap">FROM (First Table):</label>
-                    <select class="form-select form-select-sm" style="max-width: 250px;"
-                            data-bind="options: joinBaseTables, optionsText: 'name', optionsValue: 'id', value: baseTableIdOverride"></select>
-                </div>
-
-                <div class="row fw-bold border-bottom pb-2 mb-1 small text-muted">
-                    <div class="col-1"></div>
-                    <div class="col-2">Table</div>
-                    <div class="col-2">Field</div>
-                    <div class="col-1"></div>
-                    <div class="col-2">Join Type</div>
-                    <div class="col-2">Joined Table</div>
-                    <div class="col-2">Join Field</div>
-                </div>
-                <div data-bind="sortable: { data: detectedJoins, options: { handle: '.report-join-drag-handle', cursor: 'move' }, afterMove: reportJoinSorted }">
-                    <div class="row align-items-center border-bottom py-2">
-                        <div class="col-1">
-                            <span class="btn btn-sm btn-outline-secondary report-join-drag-handle" title="Drag to reorder"><i class="fa fa-bars"></i></span>
-                        </div>
-                        <div class="col-2">
-                            <span data-bind="text: tableName"></span>
-                            <!-- ko if: isForeignKey -->
-                            <span class="badge bg-info ms-1" title="Foreign Key Join">FK</span>
-                            <!-- /ko -->
-                        </div>
-                        <div class="col-2"><code data-bind="text: fieldName"></code></div>
-                        <div class="col-1 text-center">
-                            <button class="btn btn-sm btn-outline-primary" title="Swap Table ↔ Joined Table" data-bind="click: $parent.swapJoinDirection">
-                                <i class="fa fa-exchange"></i>
-                            </button>
-                        </div>
-                        <div class="col-2">
-                            <select class="form-select form-select-sm"
-                                    data-bind="options: ['INNER','LEFT','RIGHT','CROSS'], value: joinType"></select>
-                        </div>
-                        <div class="col-2" data-bind="text: joinedTableName"></div>
-                        <div class="col-2"><code data-bind="text: joinFieldName"></code></div>
-                    </div>
-                </div>
-                <!-- /ko -->
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline-secondary btn-sm" data-bind="click: clearCustomJoins">
-                    <i class="fa fa-times"></i> Clear Overrides
-                </button>
-                <button class="btn btn-primary btn-sm" data-bind="click: saveCustomJoins">
-                    <i class="fa fa-check"></i> Apply to Report
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Templates -->
 </div>

@@ -47,12 +47,12 @@
             </li>
             <li role="presentation" class="nav-item">
                 <a class="nav-link" href="#schedules" aria-controls="schedules" role="tab" data-bs-toggle="tab">
-                    <i class="fa fa-clock"></i> Schedules
+                    <i class="fa fa-clock-o"></i> Schedules
                 </a>
             </li>
             <li role="presentation" class="nav-item">
                 <a class="nav-link" href="#emailqueries" aria-controls="emailqueries" role="tab" data-bs-toggle="tab" data-bind="click: function() { emailQueries.load(); }">
-                    <i class="fa fa-envelope"></i> Email Lists
+                    <i class="fa fa-envelope-o"></i> Email Lists
                 </a>
             </li>
             <li role="presentation" class="nav-item" style="display: none;" data-bind="visible: settings.useFunctions">
@@ -78,8 +78,7 @@
 <!-- Tab panes -->
 <div class="fix-content" style="display: none;" data-bind="visible: true">
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane" id="usersroles">
-            <div data-bind="with: usersRoles">
+        <div role="tabpanel" class="tab-pane" id="usersroles" data-bind="with: usersRoles">
             <b>Users, Roles &amp; <span data-bind="text: clientIdLabel() || 'Client Id'"></span>s</b>
             <p>
                 Choose where Dotnet Report gets the Users, Roles and <span data-bind="text: clientIdLabel() || 'Client Id'"></span>s used to control access to Reports, Folders and Dashboards.
@@ -395,7 +394,6 @@
                 </div>
             </div>
         </div>
-        </div>
         <div role="tabpanel" class="tab-pane" id="connection">
             <b>Manage Data Connection</b>
             <p>
@@ -625,7 +623,7 @@
                         data-bind="click: function() { toggleSelectAll($root.customTableMode()) },
                             text: allSelected($root.customTableMode()) ? 'UnSelect All' : 'Select All'">Select All</button>
                 <button class="btn btn-sm btn-primary" title="Saves the tables that are checked" data-bind="click: function() { $root.saveChanges($root.customTableMode()) }">
-                    <span class="fa fa-floppy"></span> Save Selected Tables
+                    <span class="fa fa-floppy-o"></span> Save Selected Tables
                 </button>
             </div>
             <div class="clearfix"></div>
@@ -645,7 +643,7 @@
                     <div class="menu g-3" data-bind="foreach: pagedTables">
                         <div class="menu-category card">
                             <div class="card-header clearfix">
-                                <div class="checkbox float-start">
+                                <div class="checkbox pull-left">
                                     <label>
                                         <input type="checkbox" data-bind="checked: Selected" title="Check to use in Dotnet Report, uncheck to Remove">
                                         <span data-bind="text: TableName, attr: { title: TableName }, click: function() { $root.activeTable($data); }" class="table-name-label" style="cursor: pointer"></span>
@@ -653,13 +651,13 @@
                                         <span data-bind="visible: IsView" class="label label-sm">(view)</span>
                                     </label>
                                     <button class="btn btn-sm" title="Save this Table" data-bind="click: function() { saveTable($root.keys.AccountApiKey, $root.keys.DatabaseApiKey); }">
-                                        <i class="fas fa-save"></i>
+                                        <i class="fa fa-floppy-o"></i>
                                     </button>
                                     <button class="btn btn-sm" title="Preview this Table" data-bind="click: function() { previewTable($root.keys.AccountApiKey, $root.keys.DatabaseApiKey); }">
                                         <i class="fa fa-table"></i>
                                     </button>
                                 </div>
-                                <a class="float-end" data-bind="click: function() { $root.activeTable($data); }">
+                                <a class="pull-right" data-bind="click: function() { $root.activeTable($data); }">
                                     <span class="fa fa-chevron-right" style="cursor: pointer"></span>
                                 </a>
                             </div>
@@ -696,7 +694,7 @@
                                     <span data-bind="visible: IsView" class="label-sm">(view)</span>
                                 </h5>
                                 <button class="btn btn-sm" title="Save this Table" data-bind="click: function() { saveTable($root.keys.AccountApiKey, $root.keys.DatabaseApiKey); }">
-                                    <i class="fas fa-save"></i> Save Changes
+                                    <i class="fa fa-floppy-o"></i> Save Changes
                                 </button>
                                 <button class="btn btn-sm" title="Preview this Table" data-bind="click: function() { previewTable($root.keys.AccountApiKey, $root.keys.DatabaseApiKey); }">
                                     <i class="fa fa-table"></i> Preview Data
@@ -706,7 +704,7 @@
                                 </button>
                             </div>
                             <div class="card-body">
-                                <p class="float-end">
+                                <p class="pull-right">
                                     <button class="btn btn-sm" title="Manage Category" data-bs-toggle="modal" data-bs-target="#category-manage-modal" data-bind="click: $root.selectedCategory">
                                         <i class="fa fa-gear"></i>
                                     </button>
@@ -767,8 +765,8 @@
                                             <label data-bind="visible: ForeignKey" class="badge text-bg-info text-white">Foreign</label>
                                             <label class="badge text-bg-warning" data-bind="visible: isNew">New</label>
                                         </label>
-                                        <button class="btn btn-sm float-end" data-bs-toggle="modal" data-bs-target="#column-modal" title="All column options" data-bind="click: $root.selectColumn.bind($data, false)">...</button>
-                                        <div class="btn btn-sm float-end sortable">
+                                        <button class="btn btn-sm pull-right" data-bs-toggle="modal" data-bs-target="#column-modal" title="All column options" data-bind="click: $root.selectColumn.bind($data, false)">...</button>
+                                        <div class="btn btn-sm pull-right sortable">
                                             <span class="fa fa-arrows" aria-hidden="true" title="Drag to reorder"></span>
                                         </div>
                                     </div>
@@ -784,19 +782,36 @@
             <p>
                 Setup your Database Relations for Dotnet Report to produce dynamic queries
             </p>
-            <button class="btn btn-sm btn-primary" data-bind="click: AddAllRelations"><span class="fa fa-magic"></span> Auto Add Joins</button>
-            <button class="btn btn-sm btn-primary" data-bind="click: AddJoin"><span class="fa fa-plus"></span> Add new Join</button>&nbsp;
-            <button class="btn btn-sm btn-primary" data-bind="click: SaveJoins"><span class="fa fa-floppy-o"></span> Save Joins</button>&nbsp;
-            <button class="btn btn-sm btn-primary" data-bind="click: visualizeJoins"><span class="fa fa-arrows-h"></span> Visualize Joins</button>&nbsp;
-            <button class="btn btn-sm btn-primary" data-bind="click: DeleteVisibleJoins" title="Delete filtered Joins"><span class="fa fa-trash"></span> Delete Joins</button>&nbsp;
-            <button class="btn btn-sm btn-primary" data-bind="click: ExportJoins" title="Export filtered Joins"><span class="fa fa-download"></span> Export Joins</button>&nbsp;
-            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#uploadJoinsFileModal" aria-haspopup="true" aria-expanded="false">
-                <span class="fa fa-upload"></span> Import Joins
-            </button>
+            <button class="btn btn-sm btn-primary" data-bind="click: ImportRelationsFromDatabase" title="Read the foreign keys defined in your database and add them as joins"><span class="fa fa-database"></span> Import from Database</button>
+            <button class="btn btn-sm btn-primary" data-bind="click: AddAllRelations" title="Guess joins from columns ending in Id"><span class="fa fa-magic"></span> Auto Add Joins</button>
+            <button class="btn btn-sm btn-primary" data-bind="click: AddJoin"><span class="fa fa-plus"></span> Add new Join</button>
+            <button class="btn btn-sm btn-primary" data-bind="click: visualizeJoins"><span class="fa fa-arrows-h"></span> Visualize Joins</button>
+            <button class="btn btn-sm btn-primary" data-bind="click: SaveJoins"><span class="fa fa-floppy-o"></span> Save Joins</button>
+            <button class="btn btn-sm btn-primary" data-bind="click: DeleteVisibleJoins" title="Delete filtered Joins"><span class="fa fa-trash"></span> Delete Joins</button>
+            <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="fa fa-exchange"></span> Import / Export
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="#" data-bind="click: ExportJoins" title="Export filtered Joins">
+                            <span class="fa fa-download"></span> Export Joins
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#uploadJoinsFileModal">
+                            <span class="fa fa-upload"></span> Import Joins
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <hr />
             <div id="form-joins">
                 <div class="alert alert-warning" data-bind="visible: isDirty">
-                    You have unsaved changes. Please be sure to click <b>Save Joins</b> to save your changes.
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span>You have unsaved changes. Please be sure to click <b>Save Joins</b> to save your changes.</span>
+                        <button class="btn btn-sm btn-primary ms-3" data-bind="click: SaveJoins"><span class="fa fa-floppy-o"></span> Save Joins</button>
+                    </div>
                 </div>
 
                 <div class="container-fluid">
@@ -838,7 +853,14 @@
                                 <span class="input-group-text"><i class="fa fa-filter"></i></span>
                             </div>
                         </div>
-                        <div class="col-md-2"></div>
+                        <div class="col-md-2 text-end">
+                            <div data-bind="visible: $root.newJoinsCount() > 0">
+                                <div class="form-check form-switch d-inline-block fw-normal mt-4">
+                                    <input class="form-check-input" type="checkbox" id="joins-new-only" data-bind="checked: newOnly">
+                                    <label class="form-check-label" for="joins-new-only">New only</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- New Join Row -->
@@ -892,8 +914,28 @@
                                       title="New record added or imported, not saved yet">
                                     <i class="fa fa-warning"></i> New
                                 </span>
+                                <button class="btn btn-outline-secondary btn-sm me-1" title="Add another condition to this join (AND)" data-bind="click: addCondition">+ AND</button>
                                 <button class="btn btn-secondary btn-sm" data-bind="click: DeleteJoin">Delete</button>
                             </div>
+                            <!-- ko foreach: Conditions -->
+                            <div class="col-12">
+                                <div class="row align-items-center mt-1">
+                                    <div class="col-md-1" style="max-width: 40px;"></div>
+                                    <div class="col-md-2 text-end small text-muted fw-bold">AND</div>
+                                    <div class="col-md-2" data-bind="with: $parent.JoinTable">
+                                        <select class="form-select form-select-sm" data-bind="options: availableColumns, optionsText: 'DisplayName', optionsValue: 'ColumnName', optionsCaption: 'Choose field', value: $parent.FieldName"></select>
+                                    </div>
+                                    <div class="col-md-1 text-center">=</div>
+                                    <div class="col-md-2 small text-muted" data-bind="text: $parent.OtherTable() ? $parent.OtherTable().DisplayName() : ''"></div>
+                                    <div class="col-md-2" data-bind="with: $parent.OtherTable">
+                                        <select class="form-select form-select-sm" data-bind="options: availableColumns, optionsText: 'DisplayName', optionsValue: 'ColumnName', optionsCaption: 'Choose field', value: $parent.JoinFieldName"></select>
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <button class="btn btn-link btn-sm text-danger p-0" title="Remove this condition" data-bind="click: $parent.removeCondition"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /ko -->
                         </div>
                     </div>
                 </div>
@@ -925,10 +967,10 @@
             <div class="row" data-bind="if: Procedures.savedProcedures().length > 0">
                 <!-- Left Panel for Stored Procedure Names -->
                 <div class="col-12 col-md-4 col-lg-3 border-end" style="height: 100vh; overflow-y: auto;">
-                    <div class="menu g-3" data-bind="foreach: Procedures.savedProcedures">
+                    <div class="menu g-3" data-bind="foreach: Procedures.savedProcedures"">
                         <div class="menu-category card">
                             <div class="card-header clearfix">
-                                <div class="float-start">
+                                <div class="pull-left">
                                     <label>
                                         <span data-bind="text: TableName, click: function() { $root.activeProcedure($data); }" style="cursor: pointer"></span>
                                     </label>
@@ -940,7 +982,7 @@
                                     </button>
                                 </div>
                                 <!-- Click to activate procedure -->
-                                <a class="float-end" data-bind="click: function() { $root.activeProcedure($data); }">
+                                <a class="pull-right" data-bind="click: function() { $root.activeProcedure($data); }">
                                     <span class="fa fa-chevron-right" style="cursor: pointer"></span>
                                 </a>
                             </div>
@@ -962,7 +1004,7 @@
                                 </button>
                             </div>
                             <div class="card-body">
-                                <p class="float-end">
+                                <p class="pull-right">
                                     <button class="btn btn-sm" title="Manage Role Access" data-bs-toggle="modal" data-bs-target="#role-access-modal" data-bind="click: $root.selectAllowedRoles">
                                         <i class="fa fa-user"></i>
                                     </button>
@@ -985,7 +1027,7 @@
                                             <span data-bind="editable: DisplayName, attr: { title: 'DB field is ' + ColumnName() }"></span>
                                             <span class="badge text-bg-info text-white" data-bind="text: FieldType"></span>
                                         </label>
-                                        <button class="btn btn-sm float-end" data-bs-toggle="modal" data-bs-target="#column-modal" title="All column options" data-bind="click: $root.selectColumn.bind($data, true)">...</button>
+                                        <button class="btn btn-sm pull-right" data-bs-toggle="modal" data-bs-target="#column-modal" title="All column options" data-bind="click: $root.selectColumn.bind($data, true)">...</button>
                                     </div>
                                 </div>
                                 <label class="small">Parameters</label>
@@ -995,7 +1037,7 @@
                                             <span data-bind="editable: DisplayName, attr: { title: 'DB field is ' + ParameterName() }"></span>
                                             <span class="badge text-bg-info text-white" data-bind="text: ParameterDataTypeString"></span>
                                             &nbsp;&nbsp;
-                                            <button class="btn btn-sm btn-primary float-end" data-bs-toggle="modal" data-bs-target="#parameter-modal" title="All Parameter options" data-bind="click: $root.editParameter">...</button>
+                                            <button class="btn btn-sm btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#parameter-modal" title="All Parameter options" data-bind="click: $root.editParameter">...</button>
                                         </label>
                                     </div>
                                 </div>
@@ -1199,7 +1241,7 @@
                                                     <th></th>
                                                 </tr>
                                             </thead>
-                                            <tbody data-bind="foreach: parameters, tableSortable: { data: parameters, placeholder: 'sortable-placeholder' }" >
+                                            <tbody data-bind="foreach: parameters, tableSortable: { data: parameters, placeholder: 'sortable-placeholder' }" />
                                             <tr>
                                                 <td> <span class="fa fa-ellipsis-v" aria-hidden="true" title="Drag to reorder"></span></td>
                                                 <td>
@@ -1661,11 +1703,44 @@
 </div>
 
 
+<div class="modal" id="import-joins-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" data-bind="text: importJoinsTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="max-height: 60vh; overflow: auto;">
+                <p class="text-muted small">Tick the joins you want to add. Nothing is saved until you click <b>Save Joins</b>.</p>
+                <table class="table table-sm table-hover">
+                    <thead><tr><th style="width: 40px;"><input type="checkbox" class="form-check-input" title="Select / unselect all" data-bind="checked: importJoinsAllSelected, enable: _.some(importJoins(), function (r) { return r.join; })" /></th><th>Table.Field</th><th></th><th>Join Table.Field</th><th>Status</th></tr></thead>
+                    <tbody data-bind="foreach: importJoins">
+                        <tr>
+                            <td><input type="checkbox" class="form-check-input" data-bind="checked: add, enable: join" /></td>
+                            <td data-bind="text: from"></td>
+                            <td><i class="fa fa-long-arrow-right"></i></td>
+                            <td><span data-bind="text: to"></span> <span class="small text-muted" data-bind="text: conditions"></span></td>
+                            <td><span class="badge" data-bind="text: status, css: status === 'New' || status === 'Add AND conditions' ? 'bg-warning text-dark' : (status === 'Already exists' ? 'bg-secondary' : 'bg-light text-dark border')"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <span class="me-auto text-muted small"><span data-bind="text: importJoinsToAdd().length"></span> selected of <span data-bind="text: importJoins().length"></span></span>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-bind="click: confirmImportJoins, enable: importJoinsToAdd().length > 0">Add Selected</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal" id="joinModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Joins Diagram</h5>
+                <select class="form-select form-select-sm ms-3" style="width: 260px;" title="Show only joins for one table"
+                        data-bind="options: Tables.availableTables, optionsText: 'DisplayName', optionsValue: 'Id', optionsCaption: 'All tables', value: diagramTableFilter"></select>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="max-height:800px;overflow:auto;">
@@ -1699,7 +1774,7 @@
                 <div class="menu g-3" style="margin-left: 20px;" data-bind="foreach: foundProcedures">
                     <div class="menu-category card" style="float:left">
                         <div class="card-header clearfix" style="">
-                            <div class="float-start">
+                            <div class="pull-left">
                                 <label>
                                     <span data-bind="text: TableName"></span>
                                     <span class="label-xs">Procedure</span>
@@ -1708,7 +1783,7 @@
                                     <span class="fa fa-save"></span>
                                 </button>
                             </div>
-                            <a class="float-end" data-bs-toggle="collapse" data-bind="attr: {'data-bs-target': '#sp_'+$index()}">
+                            <a class="pull-right" data-bs-toggle="collapse" data-bind="attr: {'data-bs-target': '#sp_'+$index()}">
                                 <span class="fa fa-chevron-down"></span>
                             </a>
                         </div>
@@ -2069,7 +2144,7 @@
         <div class="modal-content" data-bind="with: previewData">
             <div class="modal-header">
                 <h4 class="modal-title">Preview Table</h4>
-                <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close pull-right" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div style="overflow-x: auto; max-height: 500px; overflow-y: auto;">
@@ -2477,44 +2552,9 @@
 </div>
 
 
-
-
-<div class="modal" id="users-roles-sql-modal" role="dialog" tabindex="-1" data-bind="with: usersRoles">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><span data-bind="text: currentSql().savedId() > 0 ? 'Edit' : 'Add'"></span> <span data-bind="text: currentSql().title"></span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body needs-validation" data-bind="with: currentSql">
-                <div class="mb-2 form-group">
-                    <label class="form-label">SQL Query</label>
-                    <textarea class="form-control" rows="10" style="font-family: monospace;" name="usersRolesSql"
-                        data-bind="textInput: draft, attr: { placeholder: placeholder }" required></textarea>
-                    <div class="invalid-feedback">SQL Query is required.</div>
-                    <div class="form-text">Read only SELECT. <span data-bind="text: hint"></span></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light btn-sm me-auto" data-bind="click: previewCurrentSql"
-                    title="Run the query above and show the rows it returns">
-                    <i class="fa fa-search"></i> Preview
-                </button>
-                <button type="button" class="btn btn-light btn-sm" data-bind="click: beautifyCurrentSql" title="Format the SQL above">
-                    <i class="fa fa-magic"></i> Beautify Sql
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary btn-sm" data-bind="click: saveSqlSource">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Templates -->
-<!--COMMON_TEMPLATES-->
 <script type="text/html" id="users-roles-sql-source">
     <!-- ko if: $parent.userSource() === 'sql' -->
-    <div class="mb-3" data-bind="if: $parent.userSource() === 'sql'">
+    <div class="mb-3">
         <div class="d-flex align-items-center mb-2">
             <button class="btn btn-primary btn-sm" data-bind="visible: savedId() === 0, click: function() { $parent.editSqlSource($data); }">
                 <i class="fa fa-plus"></i> Add <span data-bind="text: title"></span>
@@ -2547,78 +2587,36 @@
     </div>
     <!-- /ko -->
 </script>
-<!-- Configure Joins Modal -->
-<div class="modal" id="weightedmodal-configure-joins" tabindex="-1" role="dialog" aria-hidden="true" data-bind="with: selectedReport">
-    <div class="modal-dialog modal-lg ">
+
+<div class="modal" id="users-roles-sql-modal" role="dialog" tabindex="-1" data-bind="with: usersRoles">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="configureJoinsLabel"><i class="fa fa-link"></i> Configure Joins for Report</h5>
+                <h5 class="modal-title"><span data-bind="text: currentSql().savedId() > 0 ? 'Edit' : 'Add'"></span> <span data-bind="text: currentSql().title"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p class="text-muted small">Override join types and drag to reorder for this report only.</p>
-
-                <!-- ko if: detectedJoins().length === 0 -->
-                <div class="alert alert-info">
-                    <i class="fa fa-info-circle"></i> No joins detected. Make sure you have selected fields from multiple tables.
+            <div class="modal-body needs-validation" data-bind="with: currentSql">
+                <div class="mb-2 form-group">
+                    <label class="form-label">SQL Query</label>
+                    <textarea class="form-control" rows="10" style="font-family: monospace;" name="usersRolesSql"
+                        data-bind="textInput: draft, attr: { placeholder: placeholder }" required></textarea>
+                    <div class="invalid-feedback">SQL Query is required.</div>
+                    <div class="form-text">Read only SELECT. <span data-bind="text: hint"></span></div>
                 </div>
-                <!-- /ko -->
-
-                <!-- ko if: detectedJoins().length > 0 -->
-                <div class="mb-3 p-2 bg-light rounded d-flex align-items-center">
-                    <label class="fw-bold small me-2 text-nowrap">FROM (First Table):</label>
-                    <select class="form-select form-select-sm" style="max-width: 250px;"
-                            data-bind="options: joinBaseTables, optionsText: 'name', optionsValue: 'id', value: baseTableIdOverride"></select>
-                </div>
-
-                <div class="row fw-bold border-bottom pb-2 mb-1 small text-muted">
-                    <div class="col-1"></div>
-                    <div class="col-2">Table</div>
-                    <div class="col-2">Field</div>
-                    <div class="col-1"></div>
-                    <div class="col-2">Join Type</div>
-                    <div class="col-2">Joined Table</div>
-                    <div class="col-2">Join Field</div>
-                </div>
-                <div data-bind="sortable: { data: detectedJoins, options: { handle: '.report-join-drag-handle', cursor: 'move' }, afterMove: reportJoinSorted }">
-                    <div class="row align-items-center border-bottom py-2">
-                        <div class="col-1">
-                            <span class="btn btn-sm btn-outline-secondary report-join-drag-handle" title="Drag to reorder"><i class="fa fa-bars"></i></span>
-                        </div>
-                        <div class="col-2">
-                            <span data-bind="text: tableName"></span>
-                            <!-- ko if: isForeignKey -->
-                            <span class="badge bg-info ms-1" title="Foreign Key Join">FK</span>
-                            <!-- /ko -->
-                        </div>
-                        <div class="col-2"><code data-bind="text: fieldName"></code></div>
-                        <div class="col-1 text-center">
-                            <button class="btn btn-sm btn-outline-primary" title="Swap Table ↔ Joined Table" data-bind="click: $parent.swapJoinDirection">
-                                <i class="fa fa-exchange"></i>
-                            </button>
-                        </div>
-                        <div class="col-2">
-                            <select class="form-select form-select-sm"
-                                    data-bind="options: ['INNER','LEFT','RIGHT','CROSS'], value: joinType"></select>
-                        </div>
-                        <div class="col-2" data-bind="text: joinedTableName"></div>
-                        <div class="col-2"><code data-bind="text: joinFieldName"></code></div>
-                    </div>
-                </div>
-                <!-- /ko -->
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline-secondary btn-sm" data-bind="click: clearCustomJoins">
-                    <i class="fa fa-times"></i> Clear Overrides
+                <button type="button" class="btn btn-light btn-sm me-auto" data-bind="click: previewCurrentSql"
+                    title="Run the query above and show the rows it returns">
+                    <i class="fa fa-search"></i> Preview
                 </button>
-                <button class="btn btn-primary btn-sm" data-bind="click: saveCustomJoins">
-                    <i class="fa fa-check"></i> Apply to Report
+                <button type="button" class="btn btn-light btn-sm" data-bind="click: beautifyCurrentSql" title="Format the SQL above">
+                    <i class="fa fa-magic"></i> Beautify Sql
                 </button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" data-bind="click: saveSqlSource">Save</button>
             </div>
         </div>
     </div>
 </div>
-
-
-<!-- Templates -->
+<!--COMMON_TEMPLATES-->
 </div>

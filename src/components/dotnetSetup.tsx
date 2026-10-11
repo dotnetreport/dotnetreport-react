@@ -48,6 +48,7 @@ export function ReportSetup(rawProps: ReportSetupProps) {
       getUsersAndRoles: a + 'GetUsersAndRoles',
       sendPasswordSetupUrl: a + 'SendUserPasswordSetup', 
       searchProcUrl: a + 'SearchProcedure',
+      getDatabaseRelationsUrl: a + 'GetDatabaseRelations',
       getTimeZonesUrl: a + 'GetAllTimezones', 
       getSchemaFromSql: a + 'GetSchemaFromSql', 
       apiUrl: a + 'CallPostReportApi',
