@@ -1,5 +1,7 @@
 // Loads the same scripts/styles that the Angular app listed in angular.json, in the same order.
 // dotnetreport.js is a classic script that needs window.$, ko, _, GridStack, echarts, so it can't be bundled as an ES module.
+declare const __ENGINE_VERSION__: string; // injected by tsup from package.json "version"
+
 const CDN = 'https://cdn.jsdelivr.net/npm/';
 
 const css = (v: string) => [
@@ -43,7 +45,7 @@ const js = (v: string) => [
 export interface EngineOptions {
   /** Base URL that serves the npm files. Default: jsDelivr. Use your own host/proxy for offline or CSP-restricted apps. */
   assetsBaseUrl?: string;
-  /** Version of the `dotnetreport` npm package to load. */
+  /** Version of the `dotnetreport` npm package to load. Default: this package's own version (package.json). */
   engineVersion?: string;
 }
 
@@ -61,7 +63,7 @@ const add = (tag: 'link' | 'script', url: string) =>
 let loading: Promise<void> | null = null;
 
 /** Loads the engine once per page; later calls reuse the same promise. */
-export function loadEngine({ assetsBaseUrl = CDN, engineVersion = '6.3.4' }: EngineOptions = {}) {
+export function loadEngine({ assetsBaseUrl = CDN, engineVersion = __ENGINE_VERSION__ }: EngineOptions = {}) {
   return (loading ??= (async () => {
     const base = assetsBaseUrl.replace(/\/?$/, '/');
     await Promise.all(css(engineVersion).map((u) => add('link', base + u)));

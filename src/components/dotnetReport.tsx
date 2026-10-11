@@ -1,10 +1,12 @@
+import { useResolved } from '../context';
 import { KoApp, done, type CommonProps, type Run } from '../KoApp';
-import { reportHtml,dateFormatPopover } from '../templates.generated';
+import { reportHtml,dateFormatPopover } from '../templates';
 import { ReportBuilderProps } from './props';
 const $root = (root: HTMLElement) => root.querySelector('#dot-net-report') as HTMLElement;
 const A = (api: string) => api + '/DotNetReportApi/';
 
-export function ReportBuilder(props: ReportBuilderProps) {
+export function ReportBuilder(rawProps: ReportBuilderProps) {
+  const props = useResolved(rawProps);
   const { reportId = 0, linkedReport = false } = props;
   const run: Run = async ({ root, api, baseUrl, signal, getJson }) => {
     const { $, ko } = window;

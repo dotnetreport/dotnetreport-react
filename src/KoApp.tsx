@@ -6,8 +6,8 @@ declare global {
 }
 
 export interface CommonProps extends EngineOptions {
-  /** Root URL of the backend that exposes /api/DotNetReportApi/* (same value as provideDotNetReport(baseUrl) in Angular). */
-  baseUrl: string;
+  /** Root URL of the backend that exposes /api/DotNetReportApi/*. Optional here: set it once on <DotNetReportProvider> instead. */
+  baseUrl?: string;
   /** Extra options for every fetch call (headers, credentials ...). */
   fetchInit?: RequestInit;
   /** Called with the Knockout view model once bindings are applied. */
@@ -16,12 +16,15 @@ export interface CommonProps extends EngineOptions {
   className?: string;
 }
 
+/** Props after the Provider's values have been merged in: baseUrl is guaranteed. */
+export type Resolved<T extends CommonProps> = T & { baseUrl: string };
+
 export type Ctx = { root: HTMLElement; api: string; baseUrl: string; signal: AbortSignal; getJson: (url: string) => Promise<any> };
 /** Receives the mounted DOM and returns a cleanup function. */
 export type Run = (ctx: Ctx) => Promise<{ vm: any; cleanup: () => void } | undefined>;
 
 /** Hosts one Knockout app: renders the markup, loads the engine, runs `run`, and tears everything down on unmount. */
-export function KoApp({ html, run, deps, props }: { html: string; run: Run; deps: unknown[]; props: CommonProps }) {
+export function KoApp({ html, run, deps, props }: { html: string; run: Run; deps: unknown[]; props: Resolved<CommonProps> }) {
   const host = useRef<HTMLDivElement>(null);
   const latest = useRef(props);
   latest.current = props;

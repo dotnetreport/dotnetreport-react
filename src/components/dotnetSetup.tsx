@@ -1,6 +1,7 @@
+import { useResolved } from '../context';
 import { KoApp, done, type Run } from '../KoApp';
 
-import { setupHtml, dateFormatPopover } from '../templates.generated';
+import { setupHtml,dateFormatPopover } from '../templates';
 import { ReportSetupProps } from './props';
 
 const $root = (root: HTMLElement) => root.querySelector('#dot-net-report') as HTMLElement;
@@ -9,7 +10,8 @@ const A = (api: string) => api + '/DotNetReportApi/';
 
 
 
-export function ReportSetup(props: ReportSetupProps) {
+export function ReportSetup(rawProps: ReportSetupProps) {
+   const props = useResolved(rawProps);
   const { databaseApiKey = '', onlyApi = false } = props;
   const run: Run = async ({ root, api, signal, getJson }) => {
     const { ko } = window;

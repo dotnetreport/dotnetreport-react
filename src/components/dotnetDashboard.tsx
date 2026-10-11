@@ -1,12 +1,14 @@
-import { KoApp, done, type CommonProps, type Run } from '../KoApp';
-import {  dashboardHtml,dateFormatPopover } from '../templates.generated';
-import { ReportDashboardProps } from './props';
+import { useResolved } from "../context";
+import { KoApp, done, type CommonProps, type Run } from "../KoApp";
+import { dashboardHtml, dateFormatPopover } from "../templates";
+import { ReportDashboardProps } from "./props";
 
-const $root = (root: HTMLElement) => root.querySelector('#dot-net-report') as HTMLElement;
-const A = (api: string) => api + '/DotNetReportApi/';
+const $root = (root: HTMLElement) =>
+  root.querySelector("#dot-net-report") as HTMLElement;
+const A = (api: string) => api + "/DotNetReportApi/";
 
-
-export function ReportDashboard(props: ReportDashboardProps) {
+export function ReportDashboard(rawProps: ReportDashboardProps) {
+  const props = useResolved(rawProps);
   const { dashboardId: idProp, adminMode } = props;
   const run: Run = async ({ root, api, baseUrl, signal, getJson }) => {
     const { $, ko, GridStack, _ } = window;
