@@ -53,15 +53,6 @@ export default function App() {
 }
 ```
 
-Need all three screens? Put them anywhere inside the same provider:
-
-```tsx
-<DotNetReportProvider baseUrl="https://localhost:5001">
-  <ReportBuilder />                      {/* build and run reports  */}
-  <ReportDashboard dashboardId={3} />    {/* saved dashboards       */}
-  <ReportSetup />                        {/* tables, joins, access  */}
-</DotNetReportProvider>
-```
 
 A `baseUrl` given directly to a component overrides the provider's value.
 
@@ -183,21 +174,6 @@ src/
 
 Each screen's HTML contains a `<!--COMMON_TEMPLATES-->` marker where `common.html` is inserted, and its root element must keep `id="dot-net-report"`.
 
-### Testing in a React app
-
-```bash
-npm run build && npm pack
-cd ../my-test-app
-npm install ../dotnetreport-react/dotnetreport-react-<version>.tgz
-```
-
-### Syncing templates from the upstream library
-
-```bash
-npm run sync-templates -- path/to/dotnetreport-lib/src/lib
-```
-
-This **overwrites** everything in `src/templates/`. Do not run it after editing those files by hand.
 
 ## License
 
