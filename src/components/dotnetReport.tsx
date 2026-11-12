@@ -1,16 +1,18 @@
 import { useResolved } from '../context';
-import { KoApp, done, type CommonProps, type Run } from '../KoApp';
-import { reportHtml,dateFormatPopover } from '../templates';
-import { ReportBuilderProps } from './props';
+import { KoApp, type Run } from '../KoApp';
+import { reportHtml, dateFormatPopover } from '../templates';
+import type { ReportBuilderProps } from './props';
+
 const $root = (root: HTMLElement) => root.querySelector('#dot-net-report') as HTMLElement;
 const A = (api: string) => api + '/DotNetReportApi/';
 
 export function ReportBuilder(rawProps: ReportBuilderProps) {
   const props = useResolved(rawProps);
-  const { reportId = 0, linkedReport = false } = props;
-  const run: Run = async ({ root, api, baseUrl, signal, getJson }) => {
+  const { reportId, linkedReport, folderId } = props;
+  const run: Run = async ({ root, api, baseUrl, signal, getJson, query }) => {
     const { $, ko } = window;
     const a = A(api);
+    const id = reportId || query.reportId || 0;
     const result = await getJson(a + 'GetUsersAndRoles');
     if (signal.aborted) return;
     const vm = new window.reportViewModel({
@@ -26,6 +28,7 @@ export function ReportBuilder(rawProps: ReportBuilderProps) {
       apiUrl: a + 'CallReportApi',
       runReportApiUrl: a + 'RunReportApi',
       getUsersAndRolesUrl: a + 'GetUsersAndRoles',
+      reportId: id,
       userSettings: result,
       dataFilters: result.dataFilters,
       runExportUrl: a,
@@ -33,22 +36,15 @@ export function ReportBuilder(rawProps: ReportBuilderProps) {
       previewEmailListUrl: a + 'PreviewEmailList',
       printReportUrl: baseUrl + '/DotNetReport/ReportPrint',
       samePageOnRun: true,
-      reportMode: linkedReport ? 'linked' : '',
-      reportId: reportId || 0,
+      reportMode: (linkedReport ?? query.linkedreport === 'true') ? 'linked' : '',
     });
-    vm.printReport = () => {
-      const w = window.open('');
-      w?.document.open();
-      w?.document.write('<html><head><link href="/Content/bootstrap.css" rel="stylesheet" /><style type="text/css">a[href]:after {content: none !important;}</style></head><body>' + $('.report-inner').html() + '</body></html>');
-      setTimeout(() => { w?.print(); w?.close(); }, 250);
-    };
     vm.dateFormatPopoverContent = dateFormatPopover;
-    vm.init(0, result.noAccount);
-    vm.textQuery.setupSearch();
+    vm.init(folderId || query.folderid || 0, result.noAccount, id);
     ko.applyBindings(vm, $root(root));
-    const onResize = () => { if (vm.reportMode == 'execute') vm.DrawChart(); };
+    vm.textQuery.setupSearch();
+    const onResize = () => vm.DrawChart();
     $(window).on('resize', onResize);
     return { vm, cleanup: () => $(window).off('resize', onResize) };
   };
-  return <KoApp html={reportHtml} run={run} deps={[props.baseUrl, reportId, linkedReport]} props={props} />;
+  return <KoApp html={reportHtml} run={run} deps={[props.baseUrl, reportId, linkedReport, folderId]} props={props} />;
 }

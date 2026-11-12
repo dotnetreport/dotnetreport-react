@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { loadEngine, type EngineOptions } from './engine';
 
 declare global {
-  interface Window { $: any; ko: any; _: any; GridStack: any; reportViewModel: any; dashboardViewModel: any; manageViewModel: any }
+  interface Window { $: any; ko: any; _: any; GridStack: any; reportViewModel: any; dashboardViewModel: any; manageViewModel: any; usersAccessViewModel: any }
 }
 
 export interface CommonProps extends EngineOptions {
@@ -19,7 +19,31 @@ export interface CommonProps extends EngineOptions {
 /** Props after the Provider's values have been merged in: baseUrl is guaranteed. */
 export type Resolved<T extends CommonProps> = T & { baseUrl: string };
 
-export type Ctx = { root: HTMLElement; api: string; baseUrl: string; signal: AbortSignal; getJson: (url: string) => Promise<any> };
+export type Ctx = { root: HTMLElement; api: string; baseUrl: string; signal: AbortSignal; getJson: (url: string) => Promise<any>; query: Record<string, string> };
+
+// The dotnetreport scripts read these globals, which the Razor views define
+function setGlobals(query: Record<string, string>) {
+  const w = window as any;
+  w.queryParams = { ...query };
+  w.toastr = w.toastr || { error: (msg: string) => window.alert(msg), success: (msg: string) => window.alert(msg) };
+}
+
+// The API's POST calls need an anti-forgery token, which the scripts read from this hidden input
+async function loadAntiForgeryToken(api: string, fetchInit?: RequestInit) {
+  try {
+    const r = await fetch(api + '/DotNetReportApi/GetAntiForgeryToken', { credentials: 'include', ...fetchInit });
+    if (!r.ok) return; // older APIs don't have this endpoint
+    const { token } = await r.json();
+    let input = document.querySelector('input[name="__RequestVerificationToken"]') as HTMLInputElement | null;
+    if (!input) {
+      input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = '__RequestVerificationToken';
+      document.body.appendChild(input);
+    }
+    input.value = token || '';
+  } catch { /* keep going without it */ }
+}
 /** Receives the mounted DOM and returns a cleanup function. */
 export type Run = (ctx: Ctx) => Promise<{ vm: any; cleanup: () => void } | undefined>;
 
@@ -41,8 +65,17 @@ export function KoApp({ html, run, deps, props }: { html: string; run: Run; deps
       return r.json();
     };
 
+    const base = baseUrl.replace(/\/$/, '');
+    const query = Object.fromEntries(new URLSearchParams(window.location.search).entries());
+    setGlobals(query);
+
     loadEngine(latest.current)
-      .then(() => run({ root, api: baseUrl.replace(/\/$/, '') + '/api', baseUrl: baseUrl.replace(/\/$/, ''), signal: ac.signal, getJson }))
+      .then(() => {
+        // the scripts' own calls go through jQuery, so cross-origin cookies need this too
+        if (fetchInit?.credentials === 'include') window.$.ajaxSetup({ xhrFields: { withCredentials: true } });
+        return loadAntiForgeryToken(base + '/api', fetchInit);
+      })
+      .then(() => ac.signal.aborted ? undefined : run({ root, api: base + '/api', baseUrl: base, signal: ac.signal, getJson, query }))
       .then((res) => {
         if (!res) return;
         if (ac.signal.aborted) return res.cleanup();
